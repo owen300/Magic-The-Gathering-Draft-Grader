@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Layout</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
+  <!-- Custom Styles -->
+  <style>
+    body {
+      background-color: #007bff; /* Bootstrap blue background */
+      padding: 1rem;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+    }
+    .flash {
+      margin: 1em 0;
+      padding: 1em;
+      background: #cae6f6;
+      border: 1px solid orange;
+    }
+    .navbar-brand {
+      font-size: 1.5rem; /* Increase font size of ASOA */
+      font-weight: bold;
+      color: #black; /* Text color for the brand */
+      text-decoration: none;
+    }
+    .navbar-nav {
+      gap: 0.5rem; /* Space between items */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-light mb-4">
+      <div class="container-fluid">
+        <a class="navbar-brand btn btn-dark" href="{{ url_for('home.index') }}">MTG Draft Grader</a>
+        <ul class="navbar-nav ms-auto d-flex flex-row align-items-center" style="list-style: none; padding: 0; margin: 0;">
+          {% if g.user %}
+            <li class="nav-item me-3">
+              <span class="nav-link">{{ g.user['username'] }}</span>
+            </li>
+            <li class="nav-item">
+              <form action="{{ url_for('auth.logout') }}" method="get" class="me-2 d-inline">
+                <button class="btn btn-secondary" type="submit">Log Out</button>
+              </form>
+            </li>
+          {% else %}
+            <li class="nav-item d-flex align-items-center">
+              <form action="{{ url_for('auth.register') }}" method="get" class="me-2 d-inline">
+                <button class="btn btn-primary" type="submit">Register</button>
+              </form>
+              <form action="{{ url_for('auth.login') }}" method="get" class="me-2 d-inline">
+                <button class="btn btn-outline-primary" type="submit">Log In</button>
+              </form>
+            </li>
+          {% endif %}
+          <!-- New Attendance Buttons -->
+          
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    {% for message in get_flashed_messages() %}
+      <div class="alert alert-info flash">{{ message }}</div>
+    {% endfor %}
+
+    <!-- Main Content -->
+    <main>
+      <header class="mb-4">
+        <h1>{% block header %}{% endblock %}</h1>
+      </header>
+
+      <section class="content">
+        {% block content %}{% endblock %}
+      </section>
+    </main>
+  </div>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
