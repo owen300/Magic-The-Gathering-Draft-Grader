@@ -35,4 +35,5 @@ class logHandler:
         print("")
         
         
-    log_file_path = "C:\\Users\\owenf.DESKTOP-LV44FQI\\OneDrive\\Documents\\Magic-The-Gathering-Draft-Grader\\UTC_Log - 12-03-2024 22.17.25.log"
+    log_file_path = "Logs\\UTC_Log_-_12-03-2024_22.17.25.log"
+    # extract_card_data(log_file_path)
