@@ -6,9 +6,12 @@
   <title>Bootstrap Layout</title>
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <!-- Custom Styles -->
   <style>
     body {
+      font-family: 'Roboto', sans-serif; /* Apply the Google Font */
       background-color: #007bff; /* Bootstrap blue background */
       padding: 1rem;
     }
@@ -24,13 +27,56 @@
       border: 1px solid orange;
     }
     .navbar-brand {
-      font-size: 1.5rem; /* Increase font size of ASOA */
+      font-size: 1.5rem; /* Increase font size of brand name */
       font-weight: bold;
-      color: #black; /* Text color for the brand */
+      color: black; /* Text color for the brand */
       text-decoration: none;
     }
     .navbar-nav {
       gap: 0.5rem; /* Space between items */
+    }
+    .auth-buttons {
+      display: flex;
+      gap: 0.5rem; /* Space between buttons */
+      align-items: center;
+    }
+    .btn-style {
+      font-size: 0.85rem; /* Slightly smaller font size */
+      font-weight: 500; /* Medium font weight for buttons */
+      border-radius: 50px; /* Rounded buttons */
+      padding: 0.4rem 1.2rem; /* Adjust padding for smaller size */
+    }
+    .btn-primary {
+      background-color: #0056b3; /* Darker blue for buttons */
+      border-color: #0056b3;
+    }
+    .btn-outline-primary {
+      color: #0056b3; /* Blue text for outlined buttons */
+      border-color: #0056b3;
+    }
+    .btn-outline-primary:hover {
+      background-color: #0056b3;
+      color: white;
+    }
+    .btn-secondary {
+      background-color: #6c757d; /* Gray for logout button */
+      border-color: #6c757d;
+    }
+    .btn-secondary:hover {
+      background-color: #5a6268;
+      border-color: #545b62;
+    }
+    .btn-username {
+      background-color: #ffffff; /* White background for username button */
+      border: 1px solid #ced4da; /* Subtle border */
+      color: #6c757d; /* Gray text color */
+      font-size: 0.85rem; /* Match button font size */
+      font-weight: 500;
+      padding: 0.4rem 1.2rem; /* Match button padding */
+      cursor: default; /* Disable pointer cursor */
+    }
+    .btn-username:hover {
+      background-color: #f8f9fa; /* Slight hover effect */
     }
   </style>
 </head>
@@ -41,29 +87,22 @@
     <nav class="navbar navbar-light bg-light mb-4">
       <div class="container-fluid">
         <a class="navbar-brand btn btn-dark" href="{{ url_for('home.index') }}">MTG Draft Grader</a>
-        <ul class="navbar-nav ms-auto d-flex flex-row align-items-center" style="list-style: none; padding: 0; margin: 0;">
+        <ul class="navbar-nav ms-auto d-flex flex-row align-items-center auth-buttons" style="list-style: none; padding: 0; margin: 0;">
           {% if g.user %}
-            <li class="nav-item me-3">
-              <span class="nav-link">{{ g.user['username'] }}</span>
-            </li>
-            <li class="nav-item">
-              <form action="{{ url_for('auth.logout') }}" method="get" class="me-2 d-inline">
-                <button class="btn btn-secondary" type="submit">Log Out</button>
-              </form>
-            </li>
+            <!-- Username and Logout Buttons (Horizontal Alignment) -->
+            <button class="btn btn-username btn-style me-2">{{ g.user['username'] }}</button>
+            <form action="{{ url_for('auth.logout') }}" method="get" class="d-inline">
+              <button class="btn btn-secondary btn-style" type="submit">Log Out</button>
+            </form>
           {% else %}
-            <li class="nav-item d-flex align-items-center">
-              <form action="{{ url_for('auth.register') }}" method="get" class="me-2 d-inline">
-                <button class="btn btn-primary" type="submit">Register</button>
-              </form>
-              <form action="{{ url_for('auth.login') }}" method="get" class="me-2 d-inline">
-                <button class="btn btn-outline-primary" type="submit">Log In</button>
-              </form>
-            </li>
+            <!-- Register and Login Buttons -->
+            <form action="{{ url_for('auth.register') }}" method="get" class="d-inline">
+              <button class="btn btn-primary btn-style" type="submit">Register</button>
+            </form>
+            <form action="{{ url_for('auth.login') }}" method="get" class="d-inline">
+              <button class="btn btn-outline-primary btn-style" type="submit">Log In</button>
+            </form>
           {% endif %}
-          <!-- New Attendance Buttons -->
-          
-          </li>
         </ul>
       </div>
     </nav>
