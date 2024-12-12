@@ -4,6 +4,9 @@ import click
 from flask import current_app, g
 from werkzeug.security import check_password_hash, generate_password_hash
 
+from testParser import logHandler
+
+logs=logHandler()
 
 def get_db():
     if 'db' not in g:
@@ -42,4 +45,5 @@ def init_db():
 def init_db_command():
     """Clear the existing data and create new tables."""
     init_db()
+    logs.initialize_json()
     click.echo('Initialized the database.')

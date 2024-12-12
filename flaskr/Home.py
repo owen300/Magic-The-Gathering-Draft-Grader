@@ -12,3 +12,5 @@ bp = Blueprint('home', __name__)
 def index():
     db = get_db()
     return render_template('home/Home.html')
+
+

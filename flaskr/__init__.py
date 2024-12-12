@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, send_from_directory
 from werkzeug.security import generate_password_hash
 from flaskr.db import get_db
 
@@ -32,7 +32,7 @@ def create_app(test_config=None):
     
     from . import db
     db.init_app(app)
-    
+
     from . import auth
     app.register_blueprint(auth.bp)
     

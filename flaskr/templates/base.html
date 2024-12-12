@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bootstrap Layout</title>
+
+  <!-- Favicon -->
+  <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <!-- Custom Styles -->
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <style>
     body {
       font-family: 'Roboto', sans-serif; /* Apply the Google Font */
-      background-color: #007bff; /* Bootstrap blue background */
+      background-color: #222222; 
       padding: 1rem;
     }
     .container {
@@ -84,28 +91,55 @@
 
   <div class="container">
     <!-- Navbar -->
-    <nav class="navbar navbar-light bg-light mb-4">
-      <div class="container-fluid">
-        <a class="navbar-brand btn btn-dark" href="{{ url_for('home.index') }}">MTG Draft Grader</a>
-        <ul class="navbar-nav ms-auto d-flex flex-row align-items-center auth-buttons" style="list-style: none; padding: 0; margin: 0;">
+    <nav class="navbar navbar-default mb-4">
+      <div class="container-fluid" style="display: flex; align-items: center; justify-content: space-between; padding: 0 15px;">
+        <!-- Left Section: Dropdown and Title -->
+        <div class="navbar-header" style="display: flex; align-items: center;">
+          <!-- Dropdown -->
+          <div class="dropdown" style="margin-right: 20px;">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-expanded="false">
+              Pages <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+              <li><a href="{{ url_for('upload.upload_file') }}">Upload Logs</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+            </ul>
+          </div>
+    
+          <!-- Title -->
+          <a class="navbar-brand btn btn-dark" href="{{ url_for('home.index') }}">MTG Draft Grader</a>
+        </div>
+    
+        <!-- Right Section: Register, Login, and Logout Buttons -->
+        <div class="navbar-right" style="display: flex; align-items: center; margin-left: auto;">
           {% if g.user %}
-            <!-- Username and Logout Buttons (Horizontal Alignment) -->
-            <button class="btn btn-username btn-style me-2">{{ g.user['username'] }}</button>
+            <!-- Username and Logout Buttons -->
+            <button class="btn btn-username btn-style" style="margin-right: 10px;">{{ g.user['username'] }}</button>
             <form action="{{ url_for('auth.logout') }}" method="get" class="d-inline">
               <button class="btn btn-secondary btn-style" type="submit">Log Out</button>
             </form>
           {% else %}
             <!-- Register and Login Buttons -->
-            <form action="{{ url_for('auth.register') }}" method="get" class="d-inline">
+            <form action="{{ url_for('auth.register') }}" method="get" class="d-inline" style="margin-right: 10px;">
               <button class="btn btn-primary btn-style" type="submit">Register</button>
             </form>
             <form action="{{ url_for('auth.login') }}" method="get" class="d-inline">
               <button class="btn btn-outline-primary btn-style" type="submit">Log In</button>
             </form>
           {% endif %}
-        </ul>
+        </div>
       </div>
     </nav>
+    
+    
+    
+    
+    
+    
+    
 
     <!-- Flash Messages -->
     {% for message in get_flashed_messages() %}
@@ -123,8 +157,15 @@
       </section>
     </main>
   </div>
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'icon';
+    link.href = "{{ url_for('static', filename='favicon.ico') }}";
+    document.head.appendChild(link);
+  </script>
 
   <!-- Bootstrap JS Bundle -->
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+<!-- Menu Toggle Script -->
 </body>
 </html>
