@@ -59,7 +59,7 @@ class logHandler:
             with open(filename, 'r') as file:
           
                 content = {key: value for key, value in ijson.kvitems(file, '')}
-        except (ijson.JSONDecodeError, FileNotFoundError):
+        except (json.JSONDecodeError, FileNotFoundError):
             print("JSON file is empty, corrupted, or does not exist. Initializing a new file.")
             self.initialize_json()
 

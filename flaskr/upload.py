@@ -3,7 +3,7 @@ from flask import Blueprint, Flask, flash, g, render_template, request, redirect
 from werkzeug.utils import secure_filename
 
 from flaskr.auth import login_required
-from testParser import logHandler
+from Parser import logHandler
 
 UPLOAD_FOLDER = 'Logs'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','log'}

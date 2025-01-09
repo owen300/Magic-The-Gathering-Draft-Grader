@@ -4,7 +4,7 @@ import click
 from flask import current_app, g
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from testParser import logHandler
+from Parser import logHandler
 
 logs=logHandler()
 

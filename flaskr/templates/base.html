@@ -28,13 +28,25 @@
       border-radius: 8px;
     }
     .flash {
-      margin: 1em 0;
+      margin: 1em;
       padding: 1em;
       background: #cae6f6;
       border: 1px solid orange;
     }
+    .navbar-header {
+    height: 70px; /* Adjust to desired thickness */
+    display: flex;
+    align-items: center;
+    }
+    .container-fluid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    height: 70px; /* Match the navbar height */
+    }
     .navbar-brand {
-      font-size: 1.5rem; /* Increase font size of brand name */
+      font-size: 3rem; /* Increase font size of brand name */
       font-weight: bold;
       color: black; /* Text color for the brand */
       text-decoration: none;
@@ -48,7 +60,8 @@
       align-items: center;
     }
     .btn-style {
-      font-size: 0.85rem; /* Slightly smaller font size */
+      height: 40px;
+      font-size: 1.25rem; /* Slightly smaller font size */
       font-weight: 500; /* Medium font weight for buttons */
       border-radius: 50px; /* Rounded buttons */
       padding: 0.4rem 1.2rem; /* Adjust padding for smaller size */
@@ -77,7 +90,7 @@
       background-color: #ffffff; /* White background for username button */
       border: 1px solid #ced4da; /* Subtle border */
       color: #6c757d; /* Gray text color */
-      font-size: 0.85rem; /* Match button font size */
+      font-size: 1.25rem; /* Match button font size */
       font-weight: 500;
       padding: 0.4rem 1.2rem; /* Match button padding */
       cursor: default; /* Disable pointer cursor */
@@ -85,6 +98,13 @@
     .btn-username:hover {
       background-color: #f8f9fa; /* Slight hover effect */
     }
+    .dropdown .btn-default {
+    height: 50px; /* Adjust button height */
+    font-size: 1.5rem; /* Increase font size */
+    font-weight: 500; /* Make the text bold */
+    padding: 0.5rem 1.5rem; /* Add padding for better appearance */
+    border-radius: 8px; /* Optional: make the button corners rounded */
+  }
   </style>
 </head>
 <body>
