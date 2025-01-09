@@ -5,39 +5,45 @@ from werkzeug.utils import secure_filename
 from flaskr.auth import login_required
 from Parser import logHandler
 
-UPLOAD_FOLDER = 'Logs'
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','log'}
-logs=logHandler()
+UPLOAD_FOLDER = 'Logs'#folder for the logs
+
+ALLOWED_EXTENSIONS = {'txt','log'}#we only want log files being uploaded
+
+logs=logHandler()#create an instance of the loghandler
+
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER#define upload folder
+
 bp = Blueprint('upload', __name__, url_prefix='/upload')
-def allowed_file(filename):
+
+def allowed_file(filename):#checks if the file is one of the right type
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @bp.route('/', methods=['GET', 'POST'])
 @login_required
-def upload_file(): 
+def upload_file(): #upload file page
     if request.method == 'POST':
         
-        if 'file' not in request.files:
+        if 'file' not in request.files:#checks if user has uploaded the file
             flash('No file part')
             return redirect(request.url)
         
-        file = request.files['file']
+        file = request.files['file']#get the file
         
         
-        if file.filename == '':
+        if file.filename == '':#makes sure the file was selected
             flash('No selected file')
             return redirect(request.url)
         
        
-        if file and allowed_file(file.filename):
+        if file and allowed_file(file.filename):#if the file exists and its a log
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))# save the file
             flash(f"File '{filename}' uploaded successfully!") 
-            logs.add_user_data(username=g.user['username'], data=filename)
+            logs.add_user_data(username=g.user['username'], data=filename)#put the filename in the users part of the json
             #return redirect(url_for('Home.index', name=filename))
     
     

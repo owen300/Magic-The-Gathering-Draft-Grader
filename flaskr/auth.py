@@ -10,9 +10,9 @@ from flaskr.db import get_db
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=('GET', 'POST'))
-def register():
+def register():# create an account
     if request.method == 'POST':
-        username = request.form['username']
+        username = request.form['username']#get info from user
         password = request.form['password']
         db = get_db()
         error = None
@@ -24,7 +24,7 @@ def register():
 
         if error is None:
             try:
-                db.execute(
+                db.execute(#create the user in the db
                     "INSERT INTO user (username, password) VALUES (?, ?)",
                     (username, generate_password_hash(password)),
                 )
@@ -39,24 +39,24 @@ def register():
     return render_template('auth/register.html')
 
 @bp.route('/login', methods=('GET', 'POST'))
-def login():
+def login():#login
     if request.method == 'POST':
-        username = request.form['username']
+        username = request.form['username']#get user info
         password = request.form['password']
         db = get_db()
         error = None
-        user = db.execute(
+        user = db.execute(#see is user exists
             'SELECT * FROM user WHERE username = ?', (username,)
         ).fetchone()
 
-        if user is None:
+        if user is None:#if no user give error
             error = 'Incorrect username.'
-        elif not check_password_hash(user['password'], password):
+        elif not check_password_hash(user['password'], password):#if wrong password give wrong password error
             error = 'Incorrect password.'
 
         if error is None:
             session.clear()
-            session['user_id'] = user['id']
+            session['user_id'] = user['id']#log the user in
             return redirect(url_for('index'))
 
         flash(error)
@@ -64,7 +64,7 @@ def login():
     return render_template('auth/login.html')
 
 @bp.before_app_request
-def load_logged_in_user():
+def load_logged_in_user():#maneges session ids
     user_id = session.get('user_id')
 
     if user_id is None:
@@ -76,25 +76,14 @@ def load_logged_in_user():
         
 @bp.route('/logout')
 def logout():
-    session.clear()
+    session.clear()#clears the user from the session
     return redirect(url_for('index'))
 
 def login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:
-            return redirect(url_for('auth.login'))
-
-        return view(**kwargs)
-
-    return wrapped_view
-
-def admin_required(view):
-    @functools.wraps(view)
-    def wrapped_view(**kwargs):
-        user=g.user['admin']
-        if user !=1 or g.user is None:
-            return redirect(url_for('home.index'))
+            return redirect(url_for('auth.login'))## if they arent logged in, bring them to the login page
 
         return view(**kwargs)
 

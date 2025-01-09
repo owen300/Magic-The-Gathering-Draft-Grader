@@ -10,26 +10,26 @@ class logHandler:
           log_data = file.read()
 
         
-        match = re.search(r'Event_SetDeckV2.*?({.*})', log_data)
+        match = re.search(r'Event_SetDeckV2.*?({.*})', log_data)#search for this part of the file if it exists
         if not match:
             print("No deck data found.")
             return
     
         
-        json_data = match.group(1)
+        json_data = match.group(1)#get all the cards and quantitys to a group
     
         
         try:
             deck_data = ijson.loads(ijson.loads(json_data)["request"])
-            main_deck = deck_data["Deck"].get("MainDeck", [])
-            sideboard = deck_data["Deck"].get("Sideboard", [])
+            main_deck = deck_data["Deck"].get("MainDeck", [])#get main deck cards
+            sideboard = deck_data["Deck"].get("Sideboard", [])#get side deck cards
         
             
-            all_cards = main_deck + sideboard
+            all_cards = main_deck + sideboard# put it together
 
             arr=[]
             for card in all_cards:
-                arr.append([card['cardId'],card['quantity']])
+                arr.append([card['cardId'],card['quantity']])#put the data in an array
             return(arr)
         except ijson.JSONDecodeError as e:
             print(f"Error decoding JSON: {e}")
@@ -43,39 +43,39 @@ class logHandler:
         ##Check if the JSON file exists; if not, create an empty JSON structure.
         if not os.path.exists(filename):
             with open(filename, 'w') as file:
-                json.dump({}, file)  # ijson isn't used for initialization
+                json.dump({}, file) 
             print(f"Initialized file '{filename}'.")
         else:
             print(f"File '{filename}' already exists.")
 
     def add_user_data(self, username=None, data=None):
-        if username is None or data is None:
+        if username is None or data is None:# if there is a username or data
             print("Username and data must be provided.")
             return
 
         # Read existing content incrementally using ijson
         content = {}
         try:
-            with open(filename, 'r') as file:
+            with open(filename, 'r') as file:#open the userdata json
           
                 content = {key: value for key, value in ijson.kvitems(file, '')}
         except (json.JSONDecodeError, FileNotFoundError):
             print("JSON file is empty, corrupted, or does not exist. Initializing a new file.")
-            self.initialize_json()
+            self.initialize_json()#if there is a problem with the json or no json, make one
 
         if username not in content:
-            content[username] = []
+            content[username] = []#if the user doesnt have a section, give them one
 
         if data in content[username]:
             print(f"Data '{data}' already exists for user '{username}'.")
-            return
+            return#if the file was already uploaded for the user, do nothing and let them know
         else:
             content[username].append(data)
             print(f"Data '{data}' added for user '{username}'.")
-
+            #put the filename in the users section
         try:
             with open(filename, 'w') as file:
-                json.dump(content, file, indent=4)
+                json.dump(content, file, indent=4)#make the change
             print(f"Data saved successfully for user '{username}'.")
         except IOError as e:
             print(f"Error writing to file: {e}")
@@ -84,7 +84,7 @@ class logHandler:
         #Retrieve and print logs for all users incrementally using ijson.
         try:
             with open(filename, 'r') as file:
-                parser = ijson.kvitems(file, '')  # Stream key-value pairs from the top-level object
+                parser = ijson.kvitems(file, '') 
                 for username, logs in parser:
                     print(f"{username}: {logs}")
         except FileNotFoundError:
