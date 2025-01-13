@@ -80,14 +80,20 @@ class logHandler:
         except IOError as e:
             print(f"Error writing to file: {e}")
 
-    def get_user_logs(self):
-        #Retrieve and print logs for all users incrementally using ijson.
+    def get_user_logs(self, username=None):
+    # Retrieve and return logs for the specified username incrementally using ijson.
         try:
             with open(filename, 'r') as file:
-                parser = ijson.kvitems(file, '') 
-                for username, logs in parser:
-                    print(f"{username}: {logs}")
+                parser = ijson.kvitems(file, '')
+                for user, logs in parser:
+                    if user == username:
+                        print(f"{user}: {logs}")
+                        return logs  # Return logs for the specified username
+            print(f"No logs found for username '{username}'.")
+            return []
         except FileNotFoundError:
             print(f"The file '{filename}' does not exist.")
+            return []
         except ijson.JSONDecodeError:
             print(f"Error reading the JSON file '{filename}'.")
+            return []
