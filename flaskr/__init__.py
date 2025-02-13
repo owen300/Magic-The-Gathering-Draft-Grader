@@ -3,6 +3,7 @@ import os
 from flask import Flask, send_from_directory
 from werkzeug.security import generate_password_hash
 from flaskr.db import get_db
+from flaskr.gradeDisplay import test_generate_graph
 
 def create_app(test_config=None):
     # create and configure the app
@@ -42,5 +43,8 @@ def create_app(test_config=None):
     from . import Home
     app.register_blueprint(Home.bp)
     app.add_url_rule('/', endpoint='index')
+
+    from . import gradeDisplay
+    app.register_blueprint(gradeDisplay.bp)
     
     return app

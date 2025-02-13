@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+  Grades
+{% endblock %}
+
+{% block content %}
+  <title>Grades</title>
+  <div style="display: flex; align-items: center; justify-content: space-between;">
+    <!-- Graph Section -->
+    <div style="flex: 1; margin-right: 20px;">
+      {% if user_image %}
+        <img src="{{ url_for('static', filename='images/' + user_image) }}" alt="User Grade Graph" style="max-width: 100%;">
+      {% else %}
+        <p>No graph available for your profile.</p>
+      {% endif %}
+    </div>
+    
+    <!-- Latest Grade Section -->
+    <div style="flex: 0 0 auto; text-align: center; font-size: 60px; font-weight: bold;">
+      {% if latest_grade is not none %}
+         Latest Draft Grade:<br>{{ latest_grade }}%
+      {% else %}
+         No grade available.
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

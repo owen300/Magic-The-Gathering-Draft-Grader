@@ -39,6 +39,7 @@
     align-items: center;
     }
     .container-fluid {
+    color:#f8f8f8;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -78,6 +79,20 @@
       background-color: #0056b3;
       color: white;
     }
+    .navbar-brand.btn-dark {
+      background-color: #f8f8f8;
+      border-color: #f8f8f8;
+      color:#515151;
+    }
+    .navbar-brand.btn-dark:hover {
+      color: black;
+    }
+    .page-title {
+      font-size: 2.5rem; /* Increase font size of brand name */
+      font-weight: bold;
+      color: black; /* Text color for the brand */
+      text-decoration: none;
+    }
     .btn-secondary {
       background-color: #6c757d; /* Gray for logout button */
       border-color: #6c757d;
@@ -96,7 +111,7 @@
       cursor: default; /* Disable pointer cursor */
     }
     .btn-username:hover {
-      background-color: #f8f9fa; /* Slight hover effect */
+      background-color: #e8e8e8; /* Slight hover effect */
     }
     .dropdown .btn-default {
     height: 50px; /* Adjust button height */
@@ -122,7 +137,7 @@
             </button>
             <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
               <li><a href="{{ url_for('upload.upload_file') }}">Upload Logs</a></li>
-              <li><a href="#">Another action</a></li>
+              <li><a href="{{ url_for('grades.show_grades') }}">Grades</a></li>
               <li><a href="#">Something else here</a></li>
               <li class="divider"></li>
               <li><a href="#">Separated link</a></li>
@@ -131,10 +146,15 @@
     
           <!-- Title -->
           <a class="navbar-brand btn btn-dark" href="{{ url_for('home.index') }}">MTG Draft Grader</a>
+        
+        
         </div>
     
         <!-- Right Section: Register, Login, and Logout Buttons -->
         <div class="navbar-right" style="display: flex; align-items: center; margin-left: auto;">
+          <span class="navbar-text mx-3 page-title">
+            {% block page_title %}{% endblock %}
+          </span>
           {% if g.user %}
             <!-- Username and Logout Buttons -->
             <button class="btn btn-username btn-style" style="margin-right: 10px;">{{ g.user['username'] }}</button>

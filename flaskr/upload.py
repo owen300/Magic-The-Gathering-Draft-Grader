@@ -3,7 +3,8 @@ from flask import Blueprint, Flask, flash, g, render_template, request, redirect
 from werkzeug.utils import secure_filename
 
 from flaskr.auth import login_required
-from Parser import logHandler
+from flaskr.Parser import logHandler
+from flaskr.gradeDisplay import generate_graph
 
 UPLOAD_FOLDER = 'Logs'#folder for the logs
 
@@ -44,6 +45,7 @@ def upload_file(): #upload file page
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))# save the file
             flash(f"File '{filename}' uploaded successfully!") 
             logs.add_user_data(username=g.user['username'], data=filename)#put the filename in the users part of the json
+            generate_graph(g.user['username'])
             #return redirect(url_for('Home.index', name=filename))
     
     

@@ -49,33 +49,34 @@ class logHandler:
             print(f"File '{filename}' already exists.")
 
     def add_user_data(self, username=None, data=None):
-        if username is None or data is None:# if there is a username or data
+        if username is None or data is None:
             print("Username and data must be provided.")
             return
 
-        # Read existing content incrementally using ijson
         content = {}
         try:
-            with open(filename, 'r') as file:#open the userdata json
-          
-                content = {key: value for key, value in ijson.kvitems(file, '')}
+            with open(filename, 'r') as file:
+                content = json.load(file)
         except (json.JSONDecodeError, FileNotFoundError):
-            print("JSON file is empty, corrupted, or does not exist. Initializing a new file.")
-            self.initialize_json()#if there is a problem with the json or no json, make one
+            print("JSON file is empty or corrupted. Initializing a new file.")
+            self.initialize_json()
+            content = {}
 
         if username not in content:
-            content[username] = []#if the user doesnt have a section, give them one
+            content[username] = []
 
-        if data in content[username]:
+        # Check if filename exists in even indices
+        filenames = content[username][::2]  # Extract filenames (every even index)
+        if data in filenames:
             print(f"Data '{data}' already exists for user '{username}'.")
-            return#if the file was already uploaded for the user, do nothing and let them know
+            return
         else:
-            content[username].append(data)
-            print(f"Data '{data}' added for user '{username}'.")
-            #put the filename in the users section
+            content[username].extend([data, 0])  # Append filename followed by 0
+            print(f"Data '{data}' added with initial value 0 for user '{username}'.")
+
         try:
             with open(filename, 'w') as file:
-                json.dump(content, file, indent=4)#make the change
+                json.dump(content, file, indent=4)
             print(f"Data saved successfully for user '{username}'.")
         except IOError as e:
             print(f"Error writing to file: {e}")
@@ -97,3 +98,4 @@ class logHandler:
         except ijson.JSONDecodeError:
             print(f"Error reading the JSON file '{filename}'.")
             return []
+        
